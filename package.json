@@ -1,7 +1,7 @@
 {
   "name": "13-data_generation",
   "scripts": {
-    "start": "tsx index.ts"
+    "generate": "tsx index.ts"
   },
   "devDependencies": {
     "@faker-js/faker": "^9.3.0",
