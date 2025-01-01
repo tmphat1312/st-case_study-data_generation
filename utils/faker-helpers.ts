@@ -14,6 +14,8 @@ Sentencer.configure({
     testcase_expectation: () =>
       faker.helpers.arrayElement(["successfully", "failed to"]),
     testcase_verb: () => faker.hacker.verb(),
+    precondition_prefix: () => faker.helpers.arrayElement(["Given", "When"]),
+    precondition_body: () => faker.food.description().toLowerCase(),
   },
 });
 
@@ -28,8 +30,7 @@ export const mongodb = () => {
   };
 };
 
-export const description = () =>
-  makeFirstLetterCapital(faker.word.words({ count: { min: 15, max: 25 } }));
+export const description = () => makeFirstLetterCapital(faker.hacker.phrase());
 
 // === User
 export const auth = () => {
@@ -76,7 +77,9 @@ export const testcaseTitle = () =>
 export const testcasePriority = () =>
   faker.helpers.arrayElement(config.testcase.priority);
 export const precondition = () =>
-  makeFirstLetterCapital(faker.word.words({ count: { min: 5, max: 10 } }));
+  faker.datatype.boolean()
+    ? Sentencer.make(`{{ precondition_prefix }} {{ precondition_body }}`)
+    : undefined;
 
 // === Module
 export const moduleName = () => Sentencer.make("Module {{ module_name }}");
@@ -95,5 +98,10 @@ export const issueSeverity = () =>
   faker.helpers.arrayElement(config.bug.severity);
 export const issueEnvironment = () =>
   faker.helpers.arrayElement(config.bug.environment);
-export const stepsToReproduce = () =>
-  makeFirstLetterCapital(faker.word.words({ count: { min: 10, max: 20 } }));
+export const stepsToReproduce = () => {
+  const noSteps = faker.number.int({ min: 2, max: 6 });
+  return Array.from(
+    { length: noSteps },
+    (_, index) => `${index + 1}. ${faker.hacker.phrase()}`
+  ).join("\n");
+};

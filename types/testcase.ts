@@ -6,7 +6,7 @@ type Priority = (typeof config.testcase.priority)[number];
 export type Testcase = MongoObject & {
   Title: string;
   Priority: Priority;
-  Precondition: string;
+  Precondition?: string;
   Description: string;
   ModuleID: MongoId;
   ProjectID: MongoId;
