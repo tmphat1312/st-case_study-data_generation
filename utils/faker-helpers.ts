@@ -66,7 +66,7 @@ export const precondition = () =>
   makeFirstLetterCapital(faker.word.words({ count: { min: 5, max: 10 } }));
 
 // === Module
-export const moduleName = () => `Module ${toTitleCase(faker.food.vegetable())}`;
+export const moduleName = () => `Module ${toTitleCase(faker.food.dish())}`;
 export const moduleOrder = () => faker.number.int({ min: 1, max: 8 });
 
 // === Issue
