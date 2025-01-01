@@ -1,14 +1,18 @@
 {
   "name": "13-data_generation",
   "scripts": {
-    "generate": "tsx index.ts"
+    "generate": "tsx index.ts",
+    "clean": "rimraf data"
   },
   "devDependencies": {
     "@faker-js/faker": "^9.3.0",
     "@types/sentencer": "^0.2.3",
+    "@types/write": "^2.0.4",
     "bson": "^6.10.1",
+    "rimraf": "^6.0.1",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "write": "^2.0.0"
   },
   "dependencies": {
     "sentencer": "^0.2.1"
