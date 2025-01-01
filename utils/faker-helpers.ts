@@ -2,6 +2,20 @@ import { faker } from "@faker-js/faker";
 import { config } from "../config";
 import { toTitleCase, makeFirstLetterCapital } from "./string-helpers";
 import { ObjectId } from "bson";
+import Sentencer from "sentencer";
+import sentencer from "sentencer";
+
+Sentencer.configure({
+  actions: {
+    project_name: () =>
+      toTitleCase(`${faker.food.adjective()} ${faker.food.ingredient()}`),
+    module_name: () => toTitleCase(faker.food.dish()),
+    testcase_title: () => `${faker.word.verb()} ${faker.word.noun()}`,
+    testcase_expectation: () =>
+      faker.helpers.arrayElement(["successfully", "failed to"]),
+    testcase_verb: () => faker.hacker.verb(),
+  },
+});
 
 // === Shared
 export const mongodb = () => {
@@ -52,21 +66,20 @@ export const domain = () => faker.internet.domainName();
 
 // === Project
 export const projectImg = faker.image.url;
-export const projectName = () =>
-  `Project ${toTitleCase(faker.food.adjective())} ${toTitleCase(
-    faker.food.fruit()
-  )}`;
+export const projectName = () => Sentencer.make("Project {{ project_name }}");
 
 // === Testcase
 export const testcaseTitle = () =>
-  `Verity ${faker.word.verb()} ${faker.word.noun()}`;
+  sentencer.make(
+    `Verify {{ testcase_title }} that {{ testcase_expectation}} {{ testcase_verb }} {{ noun }}`
+  );
 export const testcasePriority = () =>
   faker.helpers.arrayElement(config.testcase.priority);
 export const precondition = () =>
   makeFirstLetterCapital(faker.word.words({ count: { min: 5, max: 10 } }));
 
 // === Module
-export const moduleName = () => `Module ${toTitleCase(faker.food.dish())}`;
+export const moduleName = () => Sentencer.make("Module {{ module_name }}");
 export const moduleOrder = () => faker.number.int({ min: 1, max: 8 });
 
 // === Issue
