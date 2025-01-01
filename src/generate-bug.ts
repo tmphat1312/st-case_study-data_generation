@@ -8,6 +8,7 @@ import {
   issueStatus,
   issueTitle,
   issueType,
+  mongodb,
   stepsToReproduce,
 } from "../utils/faker-helpers";
 
@@ -21,6 +22,7 @@ export function generateBug({
   assignedTo?: MongoId;
 }): Promise<Issue> {
   return Promise.resolve({
+    ...mongodb(),
     Title: issueTitle(),
     Category: "Bug",
     Status: issueStatus(),
