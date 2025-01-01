@@ -5,7 +5,6 @@ import { generateTestcase } from "./src/generate-testcase";
 import { generateBug } from "./src/generate-bug";
 
 // TODO: handle dates (before, after)
-// TODO: handle meaning sentences
 
 (async function index() {
   const person1 = await generateUser();
