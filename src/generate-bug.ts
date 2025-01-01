@@ -1,6 +1,7 @@
 import { Issue } from "../types/issue";
-import { MongoId } from "../types/mongo-db";
+import { MongoObject } from "../types/mongo-db";
 import {
+  dateRange,
   description,
   issueEnvironment,
   issuePriority,
@@ -13,29 +14,32 @@ import {
 } from "../utils/faker-helpers";
 
 export function generateBug({
-  projectId,
+  ofProject,
   createdBy,
   assignedTo,
 }: {
-  projectId: MongoId;
-  createdBy: MongoId;
-  assignedTo?: MongoId;
+  ofProject: MongoObject;
+  createdBy: MongoObject;
+  assignedTo?: MongoObject;
 }): Promise<Issue> {
+  const mongoObject = mongodb(ofProject);
+  const [startDate, endDate] = dateRange({ from: mongoObject.CreatedAt });
+
   return Promise.resolve({
-    ...mongodb(),
+    ...mongoObject,
     Title: issueTitle(),
     Category: "Bug",
     Status: issueStatus(),
     Priority: issuePriority(),
-    StartDate: new Date(),
-    EndDate: new Date(),
+    StartDate: startDate,
+    EndDate: endDate,
     IssueType: issueType(),
     Severity: issueSeverity(),
     Environment: issueEnvironment(),
     Description: description(),
-    AssignedTo: assignedTo,
+    AssignedTo: assignedTo?._id,
     StepsToReproduce: stepsToReproduce(),
-    ProjectID: projectId,
-    CreatedBy: createdBy,
+    ProjectID: ofProject._id,
+    CreatedBy: createdBy._id,
   });
 }

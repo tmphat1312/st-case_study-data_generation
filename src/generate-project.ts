@@ -1,16 +1,16 @@
-import { MongoId } from "../types/mongo-db";
+import { MongoObject } from "../types/mongo-db";
 import { Project } from "../types/project";
 import { mongodb, projectImg, projectName } from "../utils/faker-helpers";
 
 export async function generateProject({
   createdBy,
 }: {
-  createdBy: MongoId;
+  createdBy: MongoObject;
 }): Promise<Project> {
   return Promise.resolve({
-    ...mongodb(),
+    ...mongodb(createdBy),
     Name: projectName(),
     ProjectImage: projectImg(),
-    CreatedBy: createdBy,
+    CreatedBy: createdBy._id,
   });
 }

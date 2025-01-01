@@ -1,9 +1,9 @@
 import { faker } from "@faker-js/faker";
-import { config } from "../config";
-import { toTitleCase, makeFirstLetterCapital } from "./string-helpers";
 import { ObjectId } from "bson";
-import Sentencer from "sentencer";
-import sentencer from "sentencer";
+import { default as Sentencer } from "sentencer";
+import { config } from "../config";
+import { MongoObject } from "../types/mongo-db";
+import { makeFirstLetterCapital, toTitleCase } from "./string-helpers";
 
 Sentencer.configure({
   actions: {
@@ -20,8 +20,21 @@ Sentencer.configure({
 });
 
 // === Shared
-export const mongodb = () => {
-  const createdDate = faker.date.past();
+export const dateRange = ({ from, to }: { from?: Date; to?: Date }) => {
+  return faker.date.betweens({
+    from: from || faker.date.past({ years: 10 }),
+    to: to || faker.date.soon({ days: faker.number.int({ min: 5, max: 25 }) }),
+    count: 2,
+  }) as [Date, Date];
+};
+
+export const mongodb = (createdAfter?: MongoObject) => {
+  const createdDate = createdAfter
+    ? faker.date.between({
+        from: createdAfter.CreatedAt,
+        to: new Date(),
+      })
+    : faker.date.past({ years: 10 });
 
   return {
     _id: new ObjectId().toHexString(),
@@ -71,7 +84,7 @@ export const projectName = () => Sentencer.make("Project {{ project_name }}");
 
 // === Testcase
 export const testcaseTitle = () =>
-  sentencer.make(
+  Sentencer.make(
     `Verify {{ testcase_title }} that {{ testcase_expectation}} {{ testcase_verb }} {{ noun }}`
   );
 export const testcasePriority = () =>

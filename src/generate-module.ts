@@ -1,19 +1,19 @@
 import { Module } from "../types/module";
-import { MongoId } from "../types/mongo-db";
+import { MongoObject } from "../types/mongo-db";
 import { moduleName, moduleOrder, mongodb } from "../utils/faker-helpers";
 
 export function generateModule({
-  parentId,
-  projectId,
+  parentModule,
+  ofProject,
 }: {
-  parentId?: MongoId;
-  projectId: MongoId;
+  parentModule?: MongoObject;
+  ofProject: MongoObject;
 }): Promise<Module> {
   return Promise.resolve({
-    ...mongodb(),
+    ...mongodb(parentModule || ofProject),
     Name: moduleName(),
     Order: moduleOrder(),
-    ParentID: parentId,
-    ProjectID: projectId,
+    ParentID: parentModule?._id,
+    ProjectID: ofProject._id,
   });
 }

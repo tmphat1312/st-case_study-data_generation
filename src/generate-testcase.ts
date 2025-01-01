@@ -1,5 +1,4 @@
-import { config } from "../config";
-import { MongoId } from "../types/mongo-db";
+import { MongoObject } from "../types/mongo-db";
 import { Testcase } from "../types/testcase";
 import {
   description,
@@ -10,19 +9,19 @@ import {
 } from "../utils/faker-helpers";
 
 export function generateTestcase({
-  moduleId,
-  projectId,
+  ofModule,
+  ofProject,
 }: {
-  moduleId: MongoId;
-  projectId: MongoId;
+  ofModule: MongoObject;
+  ofProject: MongoObject;
 }): Promise<Testcase> {
   return Promise.resolve({
-    ...mongodb(),
+    ...mongodb(ofModule),
     Title: testcaseTitle(),
     Priority: testcasePriority(),
     Precondition: precondition(),
     Description: description(),
-    ModuleID: moduleId,
-    ProjectID: projectId,
+    ModuleID: ofModule._id,
+    ProjectID: ofProject._id,
   });
 }
