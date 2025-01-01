@@ -52,7 +52,10 @@ export const domain = () => faker.internet.domainName();
 
 // === Project
 export const projectImg = faker.image.url;
-export const projectName = () => `Project ${toTitleCase(faker.food.fruit())}`;
+export const projectName = () =>
+  `Project ${toTitleCase(faker.food.adjective())} ${toTitleCase(
+    faker.food.fruit()
+  )}`;
 
 // === Testcase
 export const testcaseTitle = () =>
