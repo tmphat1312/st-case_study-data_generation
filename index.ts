@@ -17,7 +17,6 @@ const NUMBER_OF_BUGS_PER_MODULE = 5;
   const users = await Promise.all(
     Array.from({ length: NUMBER_OF_USERS }, () => generateUser())
   );
-  const usersMap = new Map(users.map((user) => [user._id, user]));
 
   const projects = await Promise.all(
     Array.from({ length: NUMBER_OF_PROJECTS }, () =>
