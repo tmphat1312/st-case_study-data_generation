@@ -15,7 +15,7 @@ const NUMBER_OF_BUGS_PER_MODULE = 5;
 
 (async function index() {
   const users = await Promise.all(
-    Array.from({ length: NUMBER_OF_USERS }, () => generateUser())
+    Array.from({ length: NUMBER_OF_USERS }, generateUser)
   );
 
   const projects = await Promise.all(
