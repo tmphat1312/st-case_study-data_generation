@@ -94,23 +94,23 @@ const NUMBER_OF_BUGS_PER_MODULE = 5;
   await Promise.all(
     [
       {
-        path: "./data/users.json",
+        path: "./generated/users.json",
         data: users,
       },
       {
-        path: "./data/projects.json",
+        path: "./generated/projects.json",
         data: projects,
       },
       {
-        path: "./data/modules.json",
+        path: "./generated/modules.json",
         data: modules,
       },
       {
-        path: "./data/testcases.json",
+        path: "./generated/testcases.json",
         data: testcases,
       },
       {
-        path: "./data/bugs.json",
+        path: "./generated/bugs.json",
         data: bugs,
       },
     ].map(saveToFile)
